@@ -1,5 +1,9 @@
 'use strict';
 
+<<<<<<< HEAD
+=======
+// testing git comment
+>>>>>>> savannahxunc-remove-nested-loop/main
 
 define('admin/appearance/skins', [
 	'translator', 'alerts', 'settings', 'hooks', 'slugify',

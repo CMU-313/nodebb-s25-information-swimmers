@@ -19,8 +19,11 @@ const utils = require('./utils');
 const batch = require('./batch');
 
 const Flags = module.exports;
+<<<<<<< HEAD
 // test commit
 console.log('Testing refactored code - jjo2');
+=======
+>>>>>>> savannahxunc-remove-nested-loop/main
 
 Flags._states = new Map([
 	['open', {
@@ -151,8 +154,12 @@ Flags.getFlagIdsWithFilters = async function ({ filters, uid, query }) {
 			winston.warn(`[flags/list] No flag filter type found: ${type}`);
 		}
 	}
+<<<<<<< HEAD
 
 	if (!(sets.length || orSets.length)) sets = ['flags:datetime'];
+=======
+	sets = (sets.length || orSets.length) ? sets : ['flags:datetime']; // No filter default
+>>>>>>> savannahxunc-remove-nested-loop/main
 
 	let flagIds = [];
 	if (sets.length === 1) {
@@ -276,6 +283,7 @@ Flags.sort = async function (flagIds, sort) {
 	return flagIds;
 };
 
+<<<<<<< HEAD
 Flags.targetError = function (target, reporter) {
 	if (!target) {
 		throw new Error('[[error:invalid-data]]');
@@ -291,13 +299,27 @@ Flags.targetError = function (target, reporter) {
 	}
 };
 
+=======
+>>>>>>> savannahxunc-remove-nested-loop/main
 Flags.validate = async function (payload) {
 	const [target, reporter] = await Promise.all([
 		Flags.getTarget(payload.type, payload.id, payload.uid),
 		user.getUserData(payload.uid),
 	]);
 
+<<<<<<< HEAD
 	Flags.targetError(target, reporter);
+=======
+	if (!target) {
+		throw new Error('[[error:invalid-data]]');
+	} else if (target.deleted) {
+		throw new Error('[[error:post-deleted]]');
+	} else if (!reporter || !reporter.userslug) {
+		throw new Error('[[error:no-user]]');
+	} else if (reporter.banned) {
+		throw new Error('[[error:user-banned]]');
+	}
+>>>>>>> savannahxunc-remove-nested-loop/main
 
 	// Disallow flagging of profiles/content of privileged users
 	const [targetPrivileged, reporterPrivileged] = await Promise.all([
@@ -400,7 +422,10 @@ Flags.deleteNote = async function (flagId, datetime) {
 };
 
 Flags.create = async function (type, id, uid, reason, timestamp, forceFlag = false) {
+<<<<<<< HEAD
 	console.log('jjo2 - Flag creation initiated:', { type, id, uid, reason });
+=======
+>>>>>>> savannahxunc-remove-nested-loop/main
 	let doHistoryAppend = false;
 	if (!timestamp) {
 		timestamp = Date.now();
@@ -717,6 +742,7 @@ Flags.getTargetCid = async function (type, id) {
 
 Flags.update = async function (flagId, uid, changeset) {
 	const current = await db.getObjectFields(`flag:${flagId}`, ['uid', 'state', 'assignee', 'type', 'targetId']);
+<<<<<<< HEAD
 	// If there's no 'type', the flag doesn't exist or is invalid
 	if (!current.type) {
 		return;
@@ -869,6 +895,84 @@ Flags._notifyNewAssignee = async function (assigneeId, flagId, uid) {
 	});
 
 	return notifications.push(notifObj, [assigneeId]);
+=======
+	if (!current.type) {
+		return;
+	}
+	const now = changeset.datetime || Date.now();
+	const notifyAssignee = async function (assigneeId) {
+		if (assigneeId === '' || parseInt(uid, 10) === parseInt(assigneeId, 10)) {
+			return;
+		}
+		const notifObj = await notifications.create({
+			type: 'my-flags',
+			bodyShort: `[[notifications:flag-assigned-to-you, ${flagId}]]`,
+			bodyLong: '',
+			path: `/flags/${flagId}`,
+			nid: `flags:assign:${flagId}:uid:${assigneeId}`,
+			from: uid,
+		});
+		await notifications.push(notifObj, [assigneeId]);
+	};
+	const isAssignable = async function (assigneeId) {
+		let allowed = false;
+		allowed = await user.isAdminOrGlobalMod(assigneeId);
+
+		// Mods are also allowed to be assigned, if flag target is post in uid's moderated cid
+		if (!allowed && current.type === 'post') {
+			const cid = await posts.getCidByPid(current.targetId);
+			allowed = await user.isModerator(assigneeId, cid);
+		}
+
+		return allowed;
+	};
+
+	async function rescindNotifications(match) {
+		const nids = await db.getSortedSetScan({ key: 'notifications', match: `${match}*` });
+		return notifications.rescind(nids);
+	}
+
+	// Retrieve existing flag data to compare for history-saving/reference purposes
+	const tasks = [];
+	for (const prop of Object.keys(changeset)) {
+		if (current[prop] === changeset[prop]) {
+			delete changeset[prop];
+		} else if (prop === 'state') {
+			if (!Flags._states.has(changeset[prop])) {
+				delete changeset[prop];
+			} else {
+				tasks.push(db.sortedSetAdd(`flags:byState:${changeset[prop]}`, now, flagId));
+				tasks.push(db.sortedSetRemove(`flags:byState:${current[prop]}`, flagId));
+				if (changeset[prop] === 'resolved' && meta.config['flags:actionOnResolve'] === 'rescind') {
+					tasks.push(rescindNotifications(`flag:${current.type}:${current.targetId}`));
+				}
+				if (changeset[prop] === 'rejected' && meta.config['flags:actionOnReject'] === 'rescind') {
+					tasks.push(rescindNotifications(`flag:${current.type}:${current.targetId}`));
+				}
+			}
+		} else if (prop === 'assignee') {
+			if (changeset[prop] === '') {
+				tasks.push(db.sortedSetRemove(`flags:byAssignee:${changeset[prop]}`, flagId));
+			/* eslint-disable-next-line */
+			} else if (!await isAssignable(parseInt(changeset[prop], 10))) {
+				delete changeset[prop];
+			} else {
+				tasks.push(db.sortedSetAdd(`flags:byAssignee:${changeset[prop]}`, now, flagId));
+				tasks.push(notifyAssignee(changeset[prop]));
+			}
+		}
+	}
+
+	if (!Object.keys(changeset).length) {
+		return;
+	}
+
+	tasks.push(db.setObject(`flag:${flagId}`, changeset));
+	tasks.push(Flags.appendHistory(flagId, uid, changeset));
+	await Promise.all(tasks);
+
+	plugins.hooks.fire('action:flags.update', { flagId: flagId, changeset: changeset, uid: uid });
+>>>>>>> savannahxunc-remove-nested-loop/main
 };
 
 Flags.resolveFlag = async function (type, id, uid) {
