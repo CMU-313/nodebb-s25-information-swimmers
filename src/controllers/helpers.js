@@ -122,45 +122,59 @@ helpers.buildTerms = function (url, term, query) {
 	}];
 };
 
-helpers.notAllowed = async function (req, res, error) {
-	({ error } = await plugins.hooks.fire('filter:helpers.notAllowed', { req, res, error }));
+// reduce nested conditionals
+// repeated logic into helper functions to reduce complexity
 
+helpers.notAllowed = async function (req, res, error) {
+	console.log('boxie: Refactored helper.notAllowed error');
+	({ error } = await plugins.hooks.fire('filter:helpers.notAllowed', { req, res, error }));
 	await plugins.hooks.fire('response:helpers.notAllowed', { req, res, error });
-	if (res.headersSent) {
-		return;
-	}
+
+	if (res.headersSent) return;
 
 	if (req.loggedIn || req.uid === -1) {
-		if (res.locals.isAPI) {
-			if (req.originalUrl.startsWith(`${relative_path}/api/v3`)) {
-				helpers.formatApiResponse(403, res, error);
-			} else {
-				res.status(403).json({
-					path: req.path.replace(/^\/api/, ''),
-					loggedIn: req.loggedIn,
-					error: error,
-					title: '[[global:403.title]]',
-					bodyClass: middlewareHelpers.buildBodyClass(req, res),
-				});
-			}
-		} else {
-			const middleware = require('../middleware');
-			await middleware.buildHeaderAsync(req, res);
-			res.status(403).render('403', {
-				path: req.path,
-				loggedIn: req.loggedIn,
-				error,
-				title: '[[global:403.title]]',
-			});
-		}
-	} else if (res.locals.isAPI) {
-		req.session.returnTo = req.url.replace(/^\/api/, '');
-		helpers.formatApiResponse(401, res, error);
-	} else {
-		req.session.returnTo = req.url;
-		res.redirect(`${relative_path}/login${req.path.startsWith('/admin') ? '?local=1' : ''}`);
+		return handleAuthenticatedError(req, res, error);
 	}
+
+	return handleUnauthenticatedError(req, res, error);
 };
+
+async function handleAuthenticatedError(req, res, error) {
+	if (res.locals.isAPI) {
+		handleApiError(req, res, error, 403);
+	} else {
+		const middleware = require('../middleware');
+		await middleware.buildHeaderAsync(req, res);
+		res.status(403).render('403', {
+			path: req.path,
+			loggedIn: req.loggedIn,
+			error,
+			title: '[[global:403.title]]',
+		});
+	}
+}
+
+function handleUnauthenticatedError(req, res, error) {
+	req.session.returnTo = req.url.replace(/^\/api/, '');
+	if (res.locals.isAPI) {
+		return helpers.formatApiResponse(401, res, error);
+	}
+	res.redirect(`${relative_path}/login${req.path.startsWith('/admin') ? '?local=1' : ''}`);
+}
+
+function handleApiError(req, res, error, statusCode) {
+	if (req.originalUrl.startsWith(`${relative_path}/api/v3`)) {
+		helpers.formatApiResponse(statusCode, res, error);
+	} else {
+		res.status(statusCode).json({
+			path: req.path.replace(/^\/api/, ''),
+			loggedIn: req.loggedIn,
+			error: error,
+			title: `[[global:${statusCode}.title]]`,
+			bodyClass: middlewareHelpers.buildBodyClass(req, res),
+		});
+	}
+}
 
 helpers.redirect = function (res, url, permanent) {
 	// this is used by sso plugins to redirect to the auth route
