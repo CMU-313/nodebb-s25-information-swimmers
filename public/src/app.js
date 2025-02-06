@@ -297,6 +297,8 @@ if (document.readyState === 'loading') {
 		});
 	};
 
+	// write an anonymous version of newTopic(), which passes in Anonymous as the username and email!
+
 	app.newReply = async function (params) {
 		// backwards compatibilty for old signature (tid)
 		if (typeof params !== 'object') {
