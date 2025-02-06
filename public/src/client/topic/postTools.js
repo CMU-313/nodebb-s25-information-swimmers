@@ -115,7 +115,8 @@ define('forum/topic/postTools', [
 			e.preventDefault();
 			onReplyClicked($(this), tid);
 		});
-
+		
+		// add a reply-anonymously version of this!
 		$('.topic').on('click', '[component="topic/reply-as-topic"]', function () {
 			translator.translate(`[[topic:link-back, ${ajaxify.data.titleRaw}, ${config.relative_path}/topic/${ajaxify.data.slug}]]`, function (body) {
 				hooks.fire('action:composer.topic.new', {

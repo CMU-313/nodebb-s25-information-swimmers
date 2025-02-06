@@ -6,6 +6,7 @@
 	</button>
 	<ul class="dropdown-menu dropdown-menu-end p-1 text-sm" role="menu">
 		<li><a class="dropdown-item rounded-1" href="#" component="topic/reply-as-topic" role="menuitem">[[topic:reply-as-topic]]</a></li>
+		<li><a class="dropdown-item rounded-1" href="#" component="topic/reply-as-topic" role="menuitem"> Reply anonymously </a></li>
 	</ul>
 </div>
 {{{ end }}}
