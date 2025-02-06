@@ -1,6 +1,6 @@
 'use strict';
 
-// test
+// test 2
 define('admin/appearance/skins', [
 	'translator', 'alerts', 'settings', 'hooks', 'slugify',
 ], function (translator, alerts, settings, hooks, slugify) {
