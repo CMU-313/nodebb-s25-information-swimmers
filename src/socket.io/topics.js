@@ -19,6 +19,7 @@ require('./topics/tools')(SocketTopics);
 require('./topics/infinitescroll')(SocketTopics);
 require('./topics/tags')(SocketTopics);
 require('./topics/merge')(SocketTopics);
+require('./topics/heart')(SocketTopics);
 
 SocketTopics.postcount = async function (socket, tid) {
 	const canRead = await privileges.topics.can('topics:read', tid, socket.uid);
@@ -126,6 +127,18 @@ SocketTopics.getPostCountInTopic = async function (socket, tid) {
 		return 0;
 	}
 	return await db.sortedSetScore(`tid:${tid}:posters`, socket.uid);
+};
+
+SocketTopics.getHeartCount = async function (socket, tid) {
+	const count = await db.getObjectField(`topic:${tid}`, 'heartCount') || 0;
+	return parseInt(count, 10);
+};
+
+SocketTopics.toggleHeart = async function (socket, data) {
+	if (!socket.uid || !data.tid) {
+		throw new Error('[[error:invalid-data]]');
+	}
+	return await topics.toggleHeart(data.tid, socket.uid);
 };
 
 require('../promisify')(SocketTopics);
