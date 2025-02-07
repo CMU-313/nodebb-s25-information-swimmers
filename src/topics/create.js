@@ -1,4 +1,3 @@
-
 'use strict';
 
 const _ = require('lodash');
@@ -147,6 +146,15 @@ module.exports = function (Topics) {
 		if (topicData.scheduled) {
 			await Topics.delete(tid);
 		}
+
+		const [heartCount, isHearted] = await Promise.all([
+			db.getObjectField(`topic:${tid}`, 'heartCount'),
+			topics.isHearted(tid, uid)
+		]);
+
+		topicData.heartCount = parseInt(heartCount, 10) || 0;
+		topicData.isHearted = isHearted;
+		topicData.privileges = await privileges.topics.get(tid, uid);
 
 		analytics.increment(['topics', `topics:byCid:${topicData.cid}`]);
 		plugins.hooks.fire('action:topic.post', { topic: topicData, post: postData, data: data });
@@ -353,4 +361,6 @@ module.exports = function (Topics) {
 			throw new Error('[[error:no-privileges]]');
 		}
 	}
+
+	require('./heart')(Topics);
 };

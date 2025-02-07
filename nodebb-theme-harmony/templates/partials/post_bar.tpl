@@ -13,6 +13,15 @@
 				<!-- IMPORT partials/topic/sort.tpl -->
 				<!-- IMPORT partials/topic/tools.tpl -->
 
+				<!-- IF loggedIn -->
+				<div component="topic/heart" class="topic-heart">
+					<a href="#" class="heart btn-ghost-sm ff-secondary" data-tid="{tid}">
+						<i class="fa fa-heart"></i>
+						<span component="topic/heart/count" class="heart-count">0</span>
+					</a>
+				</div>
+				<!-- ENDIF loggedIn -->
+
 				{{{ if (!feeds:disableRSS && rssFeedUrl) }}}
 				<a class="btn-ghost-sm d-none d-lg-flex align-self-stretch" target="_blank" href="{rssFeedUrl}" title="[[global:rss-feed]]"><i class="fa fa-rss text-primary"></i></a>
 				{{{ end }}}
