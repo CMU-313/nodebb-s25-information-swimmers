@@ -15,6 +15,9 @@
 	<div class="post-container d-flex flex-grow-1 flex-column w-100" style="min-width:0;">
 		<div class="d-flex align-items-center gap-1 flex-wrap w-100 post-header mt-1" itemprop="author" itemscope itemtype="https://schema.org/Person">
 			<meta itemprop="name" content="{./user.username}">
+
+  			<p>This is the correct file to change for flairs</p>
+			
 			{{{ if ./user.userslug }}}<meta itemprop="url" content="{config.relative_path}/user/{./user.userslug}">{{{ end }}}
 
 			<div class="bg-body d-sm-none">
