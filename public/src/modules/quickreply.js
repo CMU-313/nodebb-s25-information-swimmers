@@ -51,6 +51,7 @@ define('quickreply', [
 		});
 
 		let ready = true;
+		/// 1st Button Handler (for the "Quick Reply" button)
 		components.get('topic/quickreply/button').on('click', function (e) {
 			e.preventDefault();
 			if (!ready) {
@@ -94,8 +95,10 @@ define('quickreply', [
 				hooks.fire('action:quickreply.success', { data });
 			});
 		});
+		
+		//////EDIT END
 
-		/// EDIT START
+		/// ADDING A SECOND BUTTON HANDLER (For "Anonymous Reply" button)
 		components.get('topic/quickreply/button2').on('click', function (e) {
 			e.preventDefault();
 			if (!ready) {
