@@ -237,7 +237,16 @@ module.exports = function (Topics) {
 			posts.parsePost(postData),
 		]);
 
-		postData.user = userInfo[0];
+		// ADDED FOR ANON POSTS
+		if (data.handle === 1) {
+			console.log("########handle is anon");
+			postData.user = "Anonymous";
+
+		} else {
+			console.log("########handle is NOT anon");
+            postData.user = userInfo[0];
+		}
+
 		postData.topic = topicInfo;
 		postData.index = topicInfo.postcount - 1;
 
