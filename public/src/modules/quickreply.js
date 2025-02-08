@@ -95,8 +95,7 @@ define('quickreply', [
 			});
 		});
 
-
-		/// ADDING A SECOND BUTTON HANDLER
+		/// EDIT START
 		components.get('topic/quickreply/button2').on('click', function (e) {
 			e.preventDefault();
 			if (!ready) {
@@ -141,8 +140,7 @@ define('quickreply', [
 			});
 		});
 
-		///// END
-
+		//////EDIT END
 
 		const draft = storage.getItem(qrDraftId);
 		if (draft) {
