@@ -207,14 +207,19 @@ module.exports = function (Topics) {
 		if (data.handle === 1) {
 			console.log("########handle is 1");
 			data.quickreplaycreator = "Anonymous";
+			// create new var called anonymous and set to true
+			data.anonymous = 1;
 
 		} else {
 			console.log("########handle is NOT 1");
 			data.quickreplaycreator = userInfo[0].username;
+			// set anonymous and set to false
+			data.anonymous = 0;
 		}
 
         console.log("######## data before post: ", data);
 
+		// calls post create here
 		let postData = await posts.create(data);
 		console.log("######## data after post: ", postData);
 	    /// EDIT END

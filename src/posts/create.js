@@ -22,6 +22,7 @@ module.exports = function (Posts) {
 
 		// EDIT start (add new variable for quick reply creator)
         const quickreplaycreator = data.quickreplaycreator || '';
+		const anonymous = data.anonymous || 0;
 		// EIDT end
 
 
@@ -42,6 +43,7 @@ module.exports = function (Posts) {
 			timestamp: timestamp,
 			// EDIT start (put params together)
 			quickreplaycreator: quickreplaycreator,
+			anonymous: anonymous,
 			// EDIT end
 
 		};
