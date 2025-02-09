@@ -20,6 +20,11 @@ module.exports = function (Posts) {
 		const timestamp = data.timestamp || Date.now();
 		const isMain = data.isMain || false;
 
+		// EDIT start (add new variable for quick reply creator)
+        const quickreplaycreator = data.quickreplaycreator || '';
+		// EIDT end
+
+
 		if (!uid && parseInt(uid, 10) !== 0) {
 			throw new Error('[[error:invalid-uid]]');
 		}
@@ -35,6 +40,10 @@ module.exports = function (Posts) {
 			tid: tid,
 			content: content,
 			timestamp: timestamp,
+			// EDIT start (put params together)
+			quickreplaycreator: quickreplaycreator,
+			// EDIT end
+
 		};
 
 		if (data.toPid) {
@@ -49,7 +58,14 @@ module.exports = function (Posts) {
 
 		let result = await plugins.hooks.fire('filter:post.create', { post: postData, data: data });
 		postData = result.post;
+		// Before: seeing data before we send to database
+		console.log('########postData before db call', postData);
+
+		// Actual database changes here
 		await db.setObject(`post:${postData.pid}`, postData);
+
+		// After: seeing data after changes in database
+		console.log('########postData after db call', postData);
 
 		const topicData = await topics.getTopicFields(tid, ['cid', 'pinned']);
 		postData.cid = topicData.cid;
