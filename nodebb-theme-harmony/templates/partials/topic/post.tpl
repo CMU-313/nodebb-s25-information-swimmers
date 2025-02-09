@@ -16,12 +16,12 @@
 		<div class="d-flex align-items-center gap-1 flex-wrap w-100 post-header mt-1" itemprop="author" itemscope itemtype="https://schema.org/Person">
 			<meta itemprop="name" content="{./user.username}">
 
-  			<p>This is the correct file to change for flairs</p>
 			
 			{{{ if ./user.userslug }}}<meta itemprop="url" content="{config.relative_path}/user/{./user.userslug}">{{{ end }}}
 
 			<div class="bg-body d-sm-none">
 				<a class="d-inline-block position-relative text-decoration-none" href="{{{ if ./user.userslug }}}{config.relative_path}/user/{./user.userslug}{{{ else }}}#{{{ end }}}">
+
 					{buildAvatar(posts.user, "20px", true, "", "user/picture")}
 					<span component="user/status" class="position-absolute translate-middle-y border border-white border-2 rounded-circle status {posts.user.status}"><span class="visually-hidden">[[global:{posts.user.status}]]</span></span>
 				</a>
@@ -45,6 +45,11 @@
 				<i component="post/edit-indicator" class="fa fa-edit text-muted{{{ if privileges.posts:history }}} pointer{{{ end }}} edit-icon {{{ if !posts.editor.username }}}hidden{{{ end }}}" title="[[global:edited-timestamp, {isoTimeToLocaleString(./editedISO, config.userLang)}]]"></i>
 				<span data-editor="{posts.editor.userslug}" component="post/editor" class="visually-hidden">[[global:last-edited-by, {posts.editor.username}]] <span class="timeago" title="{isoTimeToLocaleString(posts.editedISO, config.userLang)}"></span></span>
 			</div>
+			
+			<!-- This is where i will add the code for the flairs -->
+
+			<p>This is the correct file AND LOCATION in the file to change for flairs</p>
+
 
 			{{{ if posts.user.custom_profile_info.length }}}
 			<div>
