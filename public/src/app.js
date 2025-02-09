@@ -279,7 +279,7 @@ if (document.readyState === 'loading') {
 	};
 
 	app.newTopic = function (params) {
-		console.log("new topic hook was fired!")
+		console.log('new topic hook was fired!');
 		// backwards compatibilty for old signature (cid, tags)
 		if (typeof params !== 'object') {
 			if (params) {
