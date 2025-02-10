@@ -16,8 +16,8 @@
 				<!-- IF loggedIn -->
 				<div component="topic/heart" class="topic-heart">
 					<a href="#" class="heart btn-ghost-sm ff-secondary" data-tid="{tid}">
-						<i class="fa fa-heart"></i>
-						<span component="topic/heart/count" class="heart-count">0</span>
+						<i class="fa fa-heart text-danger"></i>
+						<span component="topic/heart/count" class="heart-count text-danger fw-semibold">9</span>
 					</a>
 				</div>
 				<!-- ENDIF loggedIn -->
