@@ -28,7 +28,7 @@
 
 			<!-- changes here -->
 
-            {{{ if (post.anonymous != 1) }}}
+			{{{if !posts.quickreplaycreator }}}
 			<a class="fw-bold text-nowrap" href="{{{ if ./user.userslug }}}{config.relative_path}/user/{./user.userslug}{{{ else }}}#{{{ end }}}" data-username="{posts.user.username}" data-uid="{posts.user.uid}">{posts.user.displayname}</a>
 
 			{{{ else }}}
