@@ -279,6 +279,7 @@ if (document.readyState === 'loading') {
 	};
 
 	app.newTopic = function (params) {
+		console.log('new topic hook was fired!');
 		// backwards compatibilty for old signature (cid, tags)
 		if (typeof params !== 'object') {
 			if (params) {
@@ -296,6 +297,8 @@ if (document.readyState === 'loading') {
 			hooks.fire('action:composer.topic.new', params);
 		});
 	};
+
+	// write an anonymous version of newTopic(), which passes in Anonymous as the username and email!
 
 	app.newReply = async function (params) {
 		// backwards compatibilty for old signature (tid)
