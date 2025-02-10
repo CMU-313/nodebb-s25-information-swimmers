@@ -147,13 +147,9 @@ module.exports = function (Topics) {
 			await Topics.delete(tid);
 		}
 
-		const [heartCount, isHearted] = await Promise.all([
-			db.getObjectField(`topic:${tid}`, 'heartCount'),
-			topics.isHearted(tid, uid),
-		]);
-
+		const heartCount = await db.getObjectField(`topic:${tid}`, 'heartCount');
 		topicData.heartCount = parseInt(heartCount, 10) || 0;
-		topicData.isHearted = isHearted;
+
 		topicData.privileges = await privileges.topics.get(tid, uid);
 
 		analytics.increment(['topics', `topics:byCid:${topicData.cid}`]);
