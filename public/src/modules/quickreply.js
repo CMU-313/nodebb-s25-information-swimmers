@@ -95,9 +95,7 @@ define('quickreply', [
 				hooks.fire('action:quickreply.success', { data });
 			});
 		});
-		
-		//////EDIT END
-
+		/// EDITEND
 		/// ADDING A SECOND BUTTON HANDLER (For "Anonymous Reply" button)
 		components.get('topic/quickreply/button2').on('click', function (e) {
 			e.preventDefault();
@@ -109,7 +107,7 @@ define('quickreply', [
 			const replyData = {
 				tid: ajaxify.data.tid,
 				handle: 1,
-				content: replyMsg
+				content: replyMsg,
 			};
 			const replyLen = replyMsg.length;
 			if (replyLen < parseInt(config.minimumPostLength, 10)) {
@@ -142,9 +140,7 @@ define('quickreply', [
 				hooks.fire('action:quickreply.success', { data });
 			});
 		});
-
-		//////EDIT END
-
+		/// EDIT END
 		const draft = storage.getItem(qrDraftId);
 		if (draft) {
 			element.val(draft);

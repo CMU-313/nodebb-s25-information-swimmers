@@ -21,9 +21,9 @@ module.exports = function (Posts) {
 		const isMain = data.isMain || false;
 
 		// EDIT start (add new variable for quick reply creator)
-        const quickreplaycreator = data.quickreplaycreator || '';
+		const quickreplaycreator = data.quickreplaycreator || '';
 		const anonymous = data.anonymous || 0;
-		// EIDT end
+		// EDIT end
 
 
 		if (!uid && parseInt(uid, 10) !== 0) {
