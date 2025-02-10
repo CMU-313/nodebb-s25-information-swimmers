@@ -403,6 +403,18 @@ define('forum/topic/threadTools', [
 		components.get('topic/ignoring/check').toggleClass('fa-check', state === 'ignore');
 	}
 
+	// Update the click handler to use the correct selector
+	$('[component="topic/heart"]').on('click', '.heart', function (e) {
+		e.preventDefault();
+		const tid = ajaxify.data.tid;
+		socket.emit('topics.toggleHeart', { tid: tid }, function (err, data) {
+			if (err) {
+				return app.alertError(err);
+			}
+			$('[component="topic/heart/count"]').text(data.count);
+		});
+		return false;
+	});
 
 	return ThreadTools;
 });

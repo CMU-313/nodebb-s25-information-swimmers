@@ -1,0 +1,38 @@
+.topic-heart {
+    margin-left: 1rem;
+    
+    .heart {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #666;
+        text-decoration: none;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: rgba(0,0,0,0.05);
+            text-decoration: none;
+        }
+
+        &.hearted {
+            color: #e91e63;
+            
+            .fa-heart {
+                animation: heart-burst 0.3s ease-out;
+            }
+        }
+
+        .heart-count {
+            font-size: 0.9em;
+            min-width: 20px;
+        }
+    }
+}
+
+@keyframes heart-burst {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+} 
