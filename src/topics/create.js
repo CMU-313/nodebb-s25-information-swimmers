@@ -149,7 +149,7 @@ module.exports = function (Topics) {
 
 		const [heartCount, isHearted] = await Promise.all([
 			db.getObjectField(`topic:${tid}`, 'heartCount'),
-			topics.isHearted(tid, uid)
+			topics.isHearted(tid, uid),
 		]);
 
 		topicData.heartCount = parseInt(heartCount, 10) || 0;

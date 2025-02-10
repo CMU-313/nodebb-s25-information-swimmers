@@ -1,8 +1,10 @@
 // socket.io/hearts.js
+
 'use strict';
 
 const privileges = require('../privileges');
 const db = require('../database');
+
 const SocketHearts = module.exports;
 
 /**
@@ -17,7 +19,7 @@ SocketHearts.heart = async function (socket, data) {
 	if (!socket.uid || !data || !data.pid) {
 		throw new Error('[[error:invalid-data]]');
 	}
-	const pid = data.pid;
+	const { pid } = data;
 	const key = `pid:${pid}:hearts`;
 
 	// Check whether the user already hearted this post.
@@ -46,7 +48,7 @@ module.exports = function (Topics) {
 		await privileges.categories.give(privs, 'registered-users');
 	};
 
-	Topics.toggleHeart = async function (tid, uid) {
+	Topics.toggleHeart = async function (tid) {
 		const key = `topic:${tid}`;
 		await db.incrementObjectField(key, 'heartCount');
 		const count = await db.getObjectField(key, 'heartCount');
