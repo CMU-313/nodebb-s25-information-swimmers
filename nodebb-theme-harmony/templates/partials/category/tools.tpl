@@ -59,6 +59,10 @@
 			</a>
 		</li>
 
+		<li>
+			<a component="topic/create-poll" href="#" class="dropdown-item rounded-1 d-flex align-items-center gap-2" role="menuitem"><i class="fa fa-fw fa-poll text-secondary"></i> Create New Poll </a>
+		</li>
+
 		<li class="dropdown-divider"></li>
 
 		<li>
