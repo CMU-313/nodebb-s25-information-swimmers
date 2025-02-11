@@ -64,6 +64,8 @@ get:
                          # added field
                         quickreplaycreator:
                           type: number
+                        anonymous:
+                          type: number
                         timestamp:
                           type: number
                         votes:
