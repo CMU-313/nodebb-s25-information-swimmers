@@ -198,7 +198,34 @@ module.exports = function (Topics) {
 		}
 
 		data.ip = data.req ? data.req.ip : null;
+
+
+		/// Change editor to Anonymous if handle is 1
+		const [
+			userInfo,
+		] = await Promise.all([
+			posts.getUserInfoForPosts([data.uid], uid),
+		]);
+		if (data.handle === 1) {
+			console.log('########handle is 1');
+			data.quickreplaycreator = 'Anonymous';
+			// create new var called anonymous and set to true
+			data.anonymous = 1;
+		} else {
+			console.log('########handle is NOT 1');
+			data.quickreplaycreator = userInfo[0].username;
+			// set anonymous and set to false
+			data.anonymous = 0;
+		}
+
+		console.log('######## data before post: ', data);
+
+		// calls post create here
 		let postData = await posts.create(data);
+		console.log('######## data after post: ', postData);
+		/// EDIT END
+
+
 		postData = await onNewPost(postData, data);
 
 		const settings = await user.getSettings(uid);
@@ -241,7 +268,15 @@ module.exports = function (Topics) {
 			posts.parsePost(postData),
 		]);
 
-		postData.user = userInfo[0];
+		// ADDED FOR ANON POSTS (changed frontend to send handle as 1 for anon)
+		if (data.handle === 1) {
+			console.log('########handle is anon');
+			postData.user = 'Anonymous';
+		} else {
+			console.log('########handle is NOT anon');
+			postData.user = userInfo[0];
+		}
+
 		postData.topic = topicInfo;
 		postData.index = topicInfo.postcount - 1;
 

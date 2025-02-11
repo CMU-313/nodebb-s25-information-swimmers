@@ -61,6 +61,11 @@ get:
                           description: A topic identifier
                         content:
                           type: string
+                         # added field
+                        quickreplaycreator:
+                          type: number
+                        anonymous:
+                          type: number
                         timestamp:
                           type: number
                         votes:
