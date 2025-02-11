@@ -36,6 +36,11 @@ get:
                     type: string
                   timestamp:
                     type: number
+                  # added field
+                  quickreplaycreator:
+                    type: number
+                  anonymous:
+                    type: number
                   flagId:
                     type: number
                   deleted:
