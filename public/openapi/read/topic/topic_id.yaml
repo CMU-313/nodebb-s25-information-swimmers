@@ -63,7 +63,7 @@ get:
                           type: string
                          # added field
                         quickreplaycreator:
-                          type: string
+                          type: number
                         timestamp:
                           type: number
                         votes:
