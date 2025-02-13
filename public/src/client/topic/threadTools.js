@@ -146,6 +146,23 @@ define('forum/topic/threadTools', [
 			changeWatching('ignore');
 		});
 
+		// Add increment button handler
+		topicContainer.on('click', '[component="topic/increment"]', function () {
+			const $button = $(this);
+			const isToggled = $button.data('toggled') || false;
+			
+			$button.data('toggled', !isToggled);
+			$button.find('i').toggleClass('text-success', !isToggled);
+			$button.find('span').text(isToggled ? 'Increment' : 'Incremented!');
+			
+			window.socket.emit('topics.toggleIncrement', { tid: tid, toggled: !isToggled }, function (err) {
+				// if (err) {
+				// 	return alerts.error(err);
+				// }
+			});
+			return false;
+		});
+
 		function changeWatching(type, state = 1) {
 			const method = state ? 'put' : 'del';
 			api[method](`/topics/${tid}/${type}`, {}, () => {
@@ -213,7 +230,9 @@ define('forum/topic/threadTools', [
 				return;
 			}
 			dropdownMenu.html(helpers.generatePlaceholderWave([8, 8, 8]));
-			const data = await socket.emit('topics.loadTopicTools', { tid: ajaxify.data.tid, cid: ajaxify.data.cid });
+			const data = await new Promise((resolve) => {
+				window.socket.emit('topics.loadTopicTools', { tid: ajaxify.data.tid, cid: ajaxify.data.cid }, resolve);
+			});
 			const html = await app.parseAndTranslate('partials/topic/topic-menu-list', data);
 			$(dropdownMenu).attr('data-loaded', 'true').html(html);
 			hooks.fire('action:topic.tools.load', {

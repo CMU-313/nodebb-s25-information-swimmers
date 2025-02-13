@@ -7,6 +7,11 @@
 					<i class="fa fa-fw fa-inbox text-primary"></i>
 					<span class="d-none d-md-inline fw-semibold">[[topic:mark-unread]]</span>
 				</button>
+
+				<button component="topic/increment" class="btn-ghost-sm ff-secondary d-flex gap-2 align-items-center">
+					<i class="fa fa-fw fa-plus text-primary"></i>
+					<span class="d-none d-md-inline fw-semibold">Increment</span>
+				</button>
 				{{{ end }}}
 
 				<!-- IMPORT partials/topic/watch.tpl -->

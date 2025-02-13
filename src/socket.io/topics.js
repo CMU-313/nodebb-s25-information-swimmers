@@ -20,6 +20,21 @@ require('./topics/infinitescroll')(SocketTopics);
 require('./topics/tags')(SocketTopics);
 require('./topics/merge')(SocketTopics);
 
+// Add increment toggle handler
+SocketTopics.toggleIncrement = async function (socket, data) {
+	if (!socket.uid || !data || !data.tid) {
+		throw new Error('[[error:invalid-data]]');
+	}
+	
+	const key = `tid:${data.tid}:increment:${socket.uid}`;
+	if (data.toggled) {
+		await db.set(key, 1);
+	} else {
+		await db.set(key, 0);
+	}
+	return { toggled: data.toggled };
+};
+
 SocketTopics.postcount = async function (socket, tid) {
 	const canRead = await privileges.topics.can('topics:read', tid, socket.uid);
 	if (!canRead) {
