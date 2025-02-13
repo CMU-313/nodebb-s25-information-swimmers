@@ -156,11 +156,7 @@ define('forum/topic/threadTools', [
 			$button.find('span').text(isToggled ? 'Increment' : 'Incremented!');
 			
 			window.socket.emit('topics.toggleIncrement', { tid: tid, toggled: !isToggled }, function (err) {
-				// if (err) {
-				// 	return alerts.error(err);
-				// }
 			});
-			return false;
 		});
 
 		function changeWatching(type, state = 1) {
