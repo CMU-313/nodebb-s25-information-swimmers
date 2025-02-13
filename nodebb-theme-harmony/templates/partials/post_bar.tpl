@@ -13,29 +13,6 @@
 				<!-- IMPORT partials/topic/sort.tpl -->
 				<!-- IMPORT partials/topic/tools.tpl -->
 
-				<!-- IF loggedIn -->
-				<div component="topic/heart" class="topic-heart">
-					<a href="#" class="heart btn-ghost-sm ff-secondary" data-tid="{tid}">
-						<i class="fa fa-heart text-danger"></i>
-						<span component="topic/heart/count" class="heart-count text-danger fw-semibold">9</span>
-					</a>
-				</div>
-
-				<div component="topic/thumbsup" class="topic-thumbsup">
-					<a href="#" class="thumbsup btn-ghost-sm ff-secondary" data-tid="{tid}">
-						<i class="fa fa-thumbs-up text-primary"></i>
-						<span component="topic/thumbsup/count" class="thumbsup-count text-primary fw-semibold">19</span>
-					</a>
-				</div>
-
-				<div component="topic/thumbsdown" class="topic-thumbsdown">
-					<a href="#" class="thumbsdown btn-ghost-sm ff-secondary" data-tid="{tid}">
-						<i class="fa fa-thumbs-down text-primary"></i>
-						<span component="topic/thumbsdown/count" class="thumbsdown-count text-primary fw-semibold">2</span>
-					</a>
-				</div>
-				<!-- ENDIF loggedIn -->
-
 				{{{ if (!feeds:disableRSS && rssFeedUrl) }}}
 				<a class="btn-ghost-sm d-none d-lg-flex align-self-stretch" target="_blank" href="{rssFeedUrl}" title="[[global:rss-feed]]"><i class="fa fa-rss text-primary"></i></a>
 				{{{ end }}}
