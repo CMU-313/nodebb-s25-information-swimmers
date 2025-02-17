@@ -215,7 +215,7 @@ module.exports = function (Topics) {
 			console.log('########handle is NOT 1');
 			data.quickreplaycreator = userInfo[0].username;
 			// set anonymous and set to false
-			data.anonymous = 0;
+			// data.anonymous = 0;
 		}
 
 		console.log('######## data before post: ', data);
