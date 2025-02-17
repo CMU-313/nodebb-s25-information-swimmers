@@ -6,12 +6,14 @@
 </div>
 {{{ end }}}
 <div class="d-flex align-items-start gap-3">
+	{{{ if (!posts.quickreplaycreator || (posts.quickreplaycreator != "Anonymous")) }}}
 	<div class="bg-body d-none d-sm-block rounded-circle" style="outline: 2px solid var(--bs-body-bg);">
 		<a class="d-inline-block position-relative text-decoration-none" href="{{{ if ./user.userslug }}}{config.relative_path}/user/{./user.userslug}{{{ else }}}#{{{ end }}}" aria-label="[[aria:user-avatar-for, {./user.username}]]">
 			{buildAvatar(posts.user, "48px", true, "", "user/picture")}
 			<span component="user/status" class="position-absolute translate-middle-y border border-white border-2 rounded-circle status {posts.user.status}"><span class="visually-hidden">[[global:{posts.user.status}]]</span></span>
 		</a>
 	</div>
+	{{{ end }}}
 	<div class="post-container d-flex flex-grow-1 flex-column w-100" style="min-width:0;">
 		<div class="d-flex align-items-center gap-1 flex-wrap w-100 post-header mt-1" itemprop="author" itemscope itemtype="https://schema.org/Person">
 			
