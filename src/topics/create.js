@@ -164,6 +164,7 @@ module.exports = function (Topics) {
 	};
 
 	Topics.reply = async function (data) {
+		console.log("Testing non anonymous reply")
 		data = await plugins.hooks.fire('filter:topic.reply', data);
 		const { tid } = data;
 		const { uid } = data;
