@@ -214,8 +214,8 @@ exports.webpack = async function (options) {
 	const plugins = require('../plugins/data');
 
 	const activePlugins = (await plugins.getActive()).map(p => p.id);
-	if (!activePlugins.includes('nodebb-plugin-composer-default')) {
-		activePlugins.push('nodebb-plugin-composer-default');
+	if (!activePlugins.includes('nodebb-plugin-composer-custom')) {
+		activePlugins.push('nodebb-plugin-composer-custom');
 	}
 	await fs.promises.writeFile(path.resolve(__dirname, '../../build/active_plugins.json'), JSON.stringify(activePlugins));
 
