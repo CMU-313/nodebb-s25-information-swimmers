@@ -11,7 +11,7 @@
         <button class="btn btn-primary btn-sm" id="add_option" disabled>Add Option</button>
 
 		<!-- Scrollable container for poll options -->
-		<div id="poll-options-container" style="max-height: 150px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+		<div id="poll-options-container" style="max-height: 150px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
 			<!-- Poll options will be inserted here dynamically -->
 			<div id="poll-options-list"></div>
 		</div>

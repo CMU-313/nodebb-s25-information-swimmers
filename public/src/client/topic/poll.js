@@ -54,9 +54,9 @@ define('forum/topic/poll', [
 
 		// Create option element and append it to the container
 		const optionElement = $(`
-			<div class="poll-option-item">
+			<div class="poll-option-item d-flex justify-content-between align-items-center" style="padding: 5px; border-bottom: 1px solid #ddd;">
 				<span>${optionText}</span>
-				<button class="btn btn-sm btn-danger remove-option">✖</button>
+				<button class="btn btn-sm btn-danger remove-option" style="margin-left: auto;">✖</button>
 			</div>
 		`);
 		optionsContainer.append(optionElement);
