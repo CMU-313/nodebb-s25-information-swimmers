@@ -1,92 +1,99 @@
 'use strict';
 
-define('forum/topic/poll', [
-	'components', 'translator', 'alerts',
-], function (components, translator, alerts) {
-	const Poll = {};
+define('forum/topic/poll', ['components', 'translator', 'alerts'], function (components, translator, alerts) {
+    const Poll = {};
 
-	let pollModal;
-	let pollOptions = [];
+    let pollModal;
+    let pollOptions = [];
 
-	Poll.init = function () {
-		if (pollModal) {
-			return;
-		}
+    Poll.init = function () {
+        if (pollModal) {
+            return;
+        }
 
-		app.parseAndTranslate('modals/create-poll', {}, function (html) {
-			pollModal = html;
-			$('body').append(pollModal);
+        app.parseAndTranslate('modals/create-poll', {}, function (html) {
+            pollModal = html;
+            $('body').append(pollModal);
 
-			// Get Elements
-			const inputField = pollModal.find('#topicId');
-			const addButton = pollModal.find('#add_option');
-			const createPollButton = pollModal.find('#create_poll');
-			const optionsContainer = pollModal.find('#poll-options-list');
+            const pollNameInput = pollModal.find('#pollName');
+            const pollOptionInput = pollModal.find('#pollOption');
+            const addOptionButton = pollModal.find('#addOption');
+            const createPollButton = pollModal.find('#createPoll');
+            const closePollButton = pollModal.find('#closePollModal');
+            const pollOptionsContainer = pollModal.find('#pollOptionsContainer');
+            const pollOptionsList = pollModal.find('#pollOptionsList');
+            const scrollIndicator = pollModal.find('#scrollIndicator');
 
-			// Initially disable buttons
-			addButton.prop('disabled', true);
-			createPollButton.prop('disabled', true);
+            // Add option when button is clicked
+            addOptionButton.on('click', function () {
+                const optionText = pollOptionInput.val().trim();
+                if (optionText) {
+                    pollOptions.push(optionText);
+                    pollOptionInput.val('');
 
-			// Event Listeners
-			pollModal.find('#move_posts_cancel').on('click', closePollModal);
+                    // Add option to the list
+                    const optionItem = $('<li class="list-group-item d-flex justify-content-between align-items-center"></li>')
+                        .text(optionText)
+                        .append($('<button class="btn btn-sm btn-danger">X</button>')
+                            .on('click', function () {
+                                pollOptions = pollOptions.filter(opt => opt !== optionText);
+                                optionItem.remove();
+                                checkScrollIndicator();
+                            })
+                        );
+                    pollOptionsList.append(optionItem);
+                    checkScrollIndicator();
+                }
+            });
 
-			// Enable "Add Option" button when input is not empty
-			inputField.on('input', function () {
-				const inputText = inputField.val().trim();
-				addButton.prop('disabled', inputText === '');
-			});
+            // Check if scrollbar should be visible
+            function checkScrollIndicator() {
+                if (pollOptionsContainer[0].scrollHeight > pollOptionsContainer.innerHeight()) {
+                    scrollIndicator.show();
+                } else {
+                    scrollIndicator.hide();
+                }
+            }
 
-			// Add option when button is clicked
-			addButton.on('click', function () {
-				addPollOption(inputField, optionsContainer, addButton, createPollButton);
-			});
-		});
-	};
+            // Listen for scrolling to hide indicator
+            pollOptionsContainer.on('scroll', function () {
+                if (pollOptionsContainer.scrollTop() + pollOptionsContainer.innerHeight() >= pollOptionsContainer[0].scrollHeight) {
+                    scrollIndicator.fadeOut();
+                } else {
+                    scrollIndicator.fadeIn();
+                }
+            });
 
-	function addPollOption(inputField, optionsContainer, addButton, createPollButton) {
-		const optionText = inputField.val().trim();
-		if (optionText === '') {
-			return;
-		}
+            // Close modal
+            closePollButton.on('click', function () {
+                pollModal.remove();
+                pollModal = null;
+            });
 
-		// Add to the options list
-		pollOptions.push(optionText);
+            // Create Poll
+            createPollButton.on('click', function () {
+                const pollName = pollNameInput.val().trim();
+                if (!pollName) {
+                    return alerts.error('Please enter a poll name.');
+                }
+                if (pollOptions.length < 2) {
+                    return alerts.error('Please add at least two options.');
+                }
 
-		// Create option element and append it to the container
-		const optionElement = $(`
-			<div class="poll-option-item d-flex justify-content-between align-items-center" style="padding: 5px; border-bottom: 1px solid #ddd;">
-				<span>${optionText}</span>
-				<button class="btn btn-sm btn-danger remove-option" style="margin-left: auto;">✖</button>
-			</div>
-		`);
-		optionsContainer.append(optionElement);
+                const pollData = {
+                    name: pollName,
+                    options: pollOptions
+                };
 
-		// Clear input field and disable "Add Option" button
-		inputField.val('');
-		addButton.prop('disabled', true);
+                console.log('Poll Created:', pollData);
+                alerts.success('Poll Created Successfully!');
 
-		// Enable "Create Poll" button when at least one option is added
-		createPollButton.prop('disabled', pollOptions.length === 0);
+                // Close modal after creating poll
+                pollModal.remove();
+                pollModal = null;
+            });
+        });
+    };
 
-		// Handle removing an option
-		optionElement.find('.remove-option').on('click', function () {
-			const index = pollOptions.indexOf(optionText);
-			if (index > -1) {
-				pollOptions.splice(index, 1);
-			}
-			optionElement.remove();
-
-			// Disable "Create Poll" button if no options remain
-			createPollButton.prop('disabled', pollOptions.length === 0);
-		});
-	}
-
-	function closePollModal() {
-		if (pollModal) {
-			pollModal.remove();
-			pollModal = null;
-		}
-	}
-
-	return Poll;
+    return Poll;
 });
