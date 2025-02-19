@@ -14,7 +14,6 @@
 	],
 	"scripts": [
 		"./static/lib/client.js",
-		"./static/lib/polls.js",
 		"./node_modules/screenfull/dist/screenfull.js"
 	],
 	"modules": {

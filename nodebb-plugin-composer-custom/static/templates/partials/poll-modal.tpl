@@ -33,9 +33,3 @@
     </div>
 </div>
 
-<script>
-    require(['composer'], function (composer) {
-        // Your custom JS code here
-        console.log('Polls script loaded successfully.');
-    });
-</script>

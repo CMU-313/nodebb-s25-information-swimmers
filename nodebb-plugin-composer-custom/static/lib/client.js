@@ -86,4 +86,61 @@ $(document).ready(function () {
 			composer.enhance(data.container);
 		});
 	});
+
+	var pollModal = document.getElementById('pollModal');
+
+    if (pollModal) {
+        // Reset the form when modal is closed
+        pollModal.addEventListener('hidden.bs.modal', function () {
+            document.getElementById('poll-form').reset();
+            $('#poll-options .input-group:gt(1)').remove();  // Keep the first two options
+        });
+    }
+
+    // === Add Poll Option ===
+    $(document).on('click', '#add-option', function (e) {
+        e.preventDefault();
+        const newOption = $(`
+            <div class="input-group mb-2">
+                <input type="text" class="form-control poll-option" placeholder="New Option" required>
+                <button class="btn btn-danger remove-option" type="button">&times;</button>
+            </div>
+        `);
+        $('#poll-options').append(newOption);
+    });
+
+    // === Remove Poll Option ===
+    $(document).on('click', '.remove-option', function (e) {
+        $(this).closest('.input-group').remove();
+    });
+
+    // === Save Poll ===
+    $(document).on('click', '#save-poll', function (e) {
+        e.preventDefault();
+        const pollTitle = $('#poll-title').val().trim();
+        const pollOptions = [];
+        
+        // Collect options
+        $('.poll-option').each(function () {
+            const option = $(this).val().trim();
+            if (option) {
+                pollOptions.push(option);
+            }
+        });
+
+        // Validation
+        if (pollTitle === '' || pollOptions.length < 2) {
+            alert('Please enter a title and at least two options.');
+            return;
+        }
+
+        // Mockup: Console log the poll data (replace this with AJAX request later)
+        console.log('Poll Title:', pollTitle);
+        console.log('Poll Options:', pollOptions);
+
+        // Close the modal after saving
+        var bootstrapModal = bootstrap.Modal.getInstance(pollModal);
+        bootstrapModal.hide();
+    });
+
 });

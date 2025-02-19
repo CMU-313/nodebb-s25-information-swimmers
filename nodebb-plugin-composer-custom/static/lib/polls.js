@@ -1,25 +1,23 @@
+// lib/polls.js
+console.log('Polls script loaded successfully.');
+
 $(document).ready(function () {
-    // Function to add a new poll option
+    console.log('Polls DOM is ready.');
+
+    // Add Option Button
     $('#add-option').on('click', function (e) {
         e.preventDefault();
-        
-        // Create a new poll option input group
-        var newOption = $(`
+        const newOption = `
             <div class="input-group mb-2">
                 <input type="text" class="form-control poll-option" placeholder="New Option">
                 <button class="btn btn-danger remove-option" type="button">&times;</button>
-            </div>
-        `);
-
-        // Append the new option to the poll-options container
+            </div>`;
         $('#poll-options').append(newOption);
     });
 
-    // Function to remove a poll option
+    // Remove Option Button
     $('#poll-options').on('click', '.remove-option', function (e) {
         e.preventDefault();
-
-        // Remove the parent input group of the clicked remove button
         $(this).closest('.input-group').remove();
     });
 });
