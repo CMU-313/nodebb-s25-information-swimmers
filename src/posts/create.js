@@ -13,6 +13,7 @@ const privileges = require('../privileges');
 
 module.exports = function (Posts) {
 	Posts.create = async function (data) {
+		console.log("Posts.create input anonymous flag:", data.anonymous);
 		// This is an internal method, consider using Topics.reply instead
 		const { uid } = data;
 		const { tid } = data;
@@ -37,6 +38,7 @@ module.exports = function (Posts) {
 			tid: tid,
 			content: content,
 			timestamp: timestamp,
+			anonymous: data.anonymous || false
 		};
 
 		if (data.toPid) {
@@ -51,6 +53,10 @@ module.exports = function (Posts) {
 
 		let result = await plugins.hooks.fire('filter:post.create', { post: postData, data: data });
 		postData = result.post;
+
+		console.log("Posts.create postData anonymous flag:", postData.anonymous);
+		console.log("Final postData before save:", postData);
+		
 		await db.setObject(`post:${postData.pid}`, postData);
 
 		const topicData = await topics.getTopicFields(tid, ['cid', 'pinned']);

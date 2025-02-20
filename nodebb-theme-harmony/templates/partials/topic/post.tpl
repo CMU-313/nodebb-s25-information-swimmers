@@ -18,13 +18,19 @@
 			{{{ if ./user.userslug }}}<meta itemprop="url" content="{config.relative_path}/user/{./user.userslug}">{{{ end }}}
 
 			<div class="bg-body d-sm-none">
+				{{{ if !posts.anonymous }}}
 				<a class="d-inline-block position-relative text-decoration-none" href="{{{ if ./user.userslug }}}{config.relative_path}/user/{./user.userslug}{{{ else }}}#{{{ end }}}">
 					{buildAvatar(posts.user, "20px", true, "", "user/picture")}
 					<span component="user/status" class="position-absolute translate-middle-y border border-white border-2 rounded-circle status {posts.user.status}"><span class="visually-hidden">[[global:{posts.user.status}]]</span></span>
 				</a>
+				{{{ end }}}
 			</div>
 
-			<a class="fw-bold text-nowrap" href="{{{ if ./user.userslug }}}{config.relative_path}/user/{./user.userslug}{{{ else }}}#{{{ end }}}" data-username="{posts.user.username}" data-uid="{posts.user.uid}">{posts.user.displayname}</a>
+			{{{ if posts.anonymous }}}
+				<a class="fw-bold text-nowrap" href="#">Anonymous</a>
+			{{{ else }}}
+				<a class="fw-bold text-nowrap" href="{{{ if ./user.userslug }}}{config.relative_path}/user/{./user.userslug}{{{ else }}}#{{{ end }}}" data-username="{posts.user.username}" data-uid="{posts.user.uid}">{posts.user.displayname}</a>
+			{{{ end }}}
 
 			{{{ each posts.user.selectedGroups }}}
 			{{{ if posts.user.selectedGroups.slug }}}

@@ -298,11 +298,13 @@ define('forum/topic/postTools', [
 					selectedPid: selectedNode.pid,
 				});
 			} else {
+				console.log("non anonymous about to post")
 				hooks.fire('action:composer.post.new', {
 					tid: tid,
 					pid: toPid,
 					title: ajaxify.data.titleRaw,
 					body: username ? username + ' ' : ($('[component="topic/quickreply/text"]').val() || ''),
+					anonymous: false
 				});
 			}
 		});
@@ -313,6 +315,7 @@ define('forum/topic/postTools', [
 		const selectedNode = await getSelectedNode();
 
 		showStaleWarning(async function () {
+			console.log("entered showStaleWarning");
 			let username = await getUserSlug(button);
 			if (getData(button, 'data-uid') === '0' || !getData(button, 'data-userslug')) {
 				username = '';
@@ -338,6 +341,7 @@ define('forum/topic/postTools', [
 					pid: toPid,
 					title: ajaxify.data.titleRaw,
 					body: username ? username + ' ' : ($('[component="topic/quickreply/text"]').val() || ''),
+					anonymous: true
 				});
 			}
 		});
