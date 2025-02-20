@@ -13,6 +13,15 @@
 				<!-- IMPORT partials/topic/sort.tpl -->
 				<!-- IMPORT partials/topic/tools.tpl -->
 
+				{{{ if isAdminOrGlobalMod }}}
+					<button component="topic/mark-unread" class="btn-ghost-sm ff-secondary d-flex gap-2 align-items-center">
+						<i class="fa fa-fw fa-inbox text-primary"></i>
+						<span class="d-none d-md-inline fw-semibold"> Endorse </span>
+					</button>
+				{{{ else }}}
+					status of endorsed or not
+				{{{ end }}}
+
 				<!-- IF loggedIn -->
 				<div component="topic/heart" class="topic-heart">
 					<a href="#" class="heart btn-ghost-sm ff-secondary" data-tid="{tid}">
