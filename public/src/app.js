@@ -306,6 +306,7 @@ if (document.readyState === 'loading') {
 			console.warn('[deprecated] app.newReply(tid) please pass in an object');
 			params = {
 				tid: params,
+				// anonymous: true
 			};
 		}
 

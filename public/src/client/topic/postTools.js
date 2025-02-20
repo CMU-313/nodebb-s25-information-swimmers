@@ -335,7 +335,7 @@ define('forum/topic/postTools', [
 					selectedPid: selectedNode.pid,
 				});
 			} else {
-				console.log("new post reply");
+				console.log("anonymous reply about to fire hook!");
 				hooks.fire('action:composer.post.new', {
 					tid: tid,
 					pid: toPid,
