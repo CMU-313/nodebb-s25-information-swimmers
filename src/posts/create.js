@@ -45,9 +45,9 @@ module.exports = function (Posts) {
 			quickreplaycreator: quickreplaycreator,
 			// anonymous: anonymous,
 			// EDIT end
-
 		};
 
+		
 		if (data.toPid) {
 			postData.toPid = data.toPid;
 		}

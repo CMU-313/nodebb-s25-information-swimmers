@@ -210,7 +210,7 @@ module.exports = function (Topics) {
 			console.log('########handle is 1');
 			data.quickreplaycreator = 'Anonymous';
 			// create new var called anonymous and set to true
-			data.anonymous = 1;
+			// data.anonymous = 1;
 		} else {
 			console.log('########handle is NOT 1');
 			data.quickreplaycreator = userInfo[0].username;
