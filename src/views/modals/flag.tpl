@@ -10,6 +10,12 @@
 					[[flags:modal-body, {type}, {id}]]
 				</p>
 				<div>
+                    <div class="radio mb-2">
+                       <label for="flag-reason-new">
+                           <input type="radio" name="flag-reason" id="flag-reason-new" value="[[flags:modal-reason-new]]">
+                           [[flags:modal-reason-new]]
+                       </label>
+                    </div>
 					<div class="radio mb-2">
 						<label for="flag-reason-spam">
 							<input type="radio" name="flag-reason" id="flag-reason-spam" value="[[flags:modal-reason-spam]]">
