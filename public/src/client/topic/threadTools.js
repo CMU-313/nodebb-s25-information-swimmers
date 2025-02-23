@@ -41,7 +41,22 @@ define('forum/topic/threadTools', [
 			return false;
 		});
 
+		
+		topicContainer.on('click', '[component="topic/endorse"]', function () {
+			console.log('#######endorse executed');
+			topicCommand('put', '/endorse', 'endorse');
+			return false;
+		});
+
+		topicContainer.on('click', '[component="topic/unendorse"]', function () {
+			console.log('#######unendorse executed');
+			topicCommand('del', '/endorse', 'unendorse');
+			return false;
+		});
+
 		topicContainer.on('click', '[component="topic/lock"]', function () {
+			console.log('#######lock executed');
+
 			topicCommand('put', '/lock', 'lock');
 			return false;
 		});
@@ -201,6 +216,7 @@ define('forum/topic/threadTools', [
 	};
 
 	function renderMenu(container) {
+		console.log('####renderMenu executed');
 		if (!container) {
 			return;
 		}
