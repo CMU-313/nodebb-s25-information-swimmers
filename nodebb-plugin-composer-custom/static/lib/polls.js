@@ -20,4 +20,43 @@ $(document).ready(function () {
         e.preventDefault();
         $(this).closest('.input-group').remove();
     });
+
+
+    // Save Poll Button
+    $('#save-poll').on('click', function (e) {
+        e.preventDefault();
+
+        const pollTitle = $('#poll-title').val().trim();
+        const pollOptions = [];
+
+        // Collect poll options
+        $('.poll-option').each(function () {
+            const option = $(this).val().trim();
+            if (option) {
+                pollOptions.push(option);
+            }
+        });
+
+        // Validation
+        if (pollTitle === '' || pollOptions.length < 2) {
+            alert('Please enter a title and at least two options.');
+            return;
+        }
+
+        // Mockup: Console log the poll data (replace this with AJAX request later)
+        console.log('Poll Title:', pollTitle);
+        console.log('Poll Options:', pollOptions);
+
+        // Close the modal properly using Bootstrap 5's API
+        const pollModalElement = document.getElementById('pollModal');
+        if (pollModalElement) {
+            const pollModalInstance = bootstrap.Modal.getInstance(pollModalElement);
+            if (pollModalInstance) {
+                pollModalInstance.hide();
+            } else {
+                new bootstrap.Modal(pollModalElement).hide();
+            }
+        }
+    });
+
 });
