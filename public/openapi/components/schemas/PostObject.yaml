@@ -22,6 +22,8 @@ PostObject:
       type: number
     votes:
       type: number
+    flagId:
+      type: number
     endorsedByStaff:
       type: boolean
       description: Indicates if the post has been endorsed by an admin

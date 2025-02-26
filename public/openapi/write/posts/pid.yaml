@@ -41,6 +41,10 @@ get:
                     type: number
                   anonymous:
                     type: number
+                  endorsedByStaff:
+                    type: boolean
+                    description: Indicates if the post has been endorsed by an admin
+                    nullable: true
                   flagId:
                     type: number
                   deleted:
