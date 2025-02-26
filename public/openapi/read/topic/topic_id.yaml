@@ -264,9 +264,6 @@ get:
                           type: boolean
                         display_post_menu:
                           type: boolean
-                        flagId:
-                          type: number
-                          description: The flag identifier, if this particular post has been flagged before
                   events:
                     type: array
                     items:
