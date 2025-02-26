@@ -177,12 +177,16 @@ async function filterAndSort(pids, data) {
 }
 
 async function getMatchedPosts(pids, data) {
-	const postFields = ['pid', 'uid', 'tid', 'timestamp', 'deleted', 'upvotes', 'downvotes'];
-
-	let postsData = await posts.getPostsFields(pids, postFields);
+	if (!Array.isArray(pids) || !pids.length) {
+		return [];
+	}
+	const postFields = ['pid', 'uid', 'tid', 'timestamp', 'deleted', 'upvotes', 'downvotes', 'flagId'];
+	let postsData = await posts.getPostsFields(pids.slice(0, 100), postFields);
+	postsData = postsData.filter(Boolean);
 	postsData = postsData.filter(post => post && !post.deleted);
-	const uids = _.uniq(postsData.map(post => post.uid));
-	const tids = _.uniq(postsData.map(post => post.tid));
+
+	const uids = _.uniq(postsData.map(p => p && p.uid));
+	const tids = _.uniq(postsData.map(p => p && p.tid));
 
 	const [users, topics] = await Promise.all([
 		getUsers(uids, data),

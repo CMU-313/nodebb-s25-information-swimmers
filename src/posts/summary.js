@@ -1,4 +1,3 @@
-
 'use strict';
 
 const validator = require('validator');
@@ -20,11 +19,47 @@ module.exports = function (Posts) {
 		options.parse = options.hasOwnProperty('parse') ? options.parse : true;
 		options.extraFields = options.hasOwnProperty('extraFields') ? options.extraFields : [];
 
-		const fields = ['pid', 'tid', 'content', 'uid', 'timestamp', 'deleted', 'upvotes', 'downvotes', 'replies', 'handle'].concat(options.extraFields);
+		const fields = ['pid', 'tid', 'content', 'uid', 'timestamp', 'deleted', 'upvotes', 'downvotes', 'replies', 'handle', 'flagId'].concat(options.extraFields);
 
 		let posts = await Posts.getPostsFields(pids, fields);
 		posts = posts.filter(Boolean);
 		posts = await user.blocks.filter(uid, posts);
+
+		// Add endorsedByStaff property to posts with flagId
+		const flaggedPosts = posts.filter(post => post && post.flagId);
+		if (flaggedPosts.length) {
+			const flags = require('../flags');
+			const flagData = await Promise.all(
+				flaggedPosts.map(async (post) => {
+					try {
+						const reports = await flags.getReports(post.flagId);
+						return { pid: post.pid, reports: reports };
+					} catch (err) {
+						return { pid: post.pid, reports: [] };
+					}
+				})
+			);
+			// Create a map of pid to flag data for quick lookup
+			const flagDataMap = {};
+			flagData.forEach((data) => {
+				flagDataMap[data.pid] = data.reports;
+			});
+			// Set endorsedByStaff property for each post
+			posts.forEach((post) => {
+				if (post && post.flagId && flagDataMap[post.pid]) {
+					post.endorsedByStaff = flagDataMap[post.pid].some(report => report.value && report.value.includes('Endorsed by Admins'));
+				} else {
+					post.endorsedByStaff = false;
+				}
+			});
+		} else {
+			// Set endorsedByStaff to false for all posts if none have flagId
+			posts.forEach((post) => {
+				if (post) {
+					post.endorsedByStaff = false;
+				}
+			});
+		}
 
 		const uids = _.uniq(posts.map(p => p && p.uid));
 		const tids = _.uniq(posts.map(p => p && p.tid));

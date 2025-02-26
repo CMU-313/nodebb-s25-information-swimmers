@@ -35,6 +35,19 @@ postsAPI.get = async function (caller, data) {
 	Object.assign(post, voted);
 	post.ip = userPrivilege.isAdminOrMod ? post.ip : undefined;
 
+	// Add endorsedByStaff property based on flag reports
+	if (post.flagId) {
+		const flags = require('../flags');
+		try {
+			const reports = await flags.getReports(post.flagId);
+			post.endorsedByStaff = reports.some(report => report.value && report.value.includes('Endorsed by Admins'));
+		} catch (err) {
+			post.endorsedByStaff = false;
+		}
+	} else {
+		post.endorsedByStaff = false;
+	}
+
 	const selfPost = caller.uid && caller.uid === parseInt(post.uid, 10);
 	if (post.deleted && !(userPrivilege.isAdminOrMod || selfPost)) {
 		post.content = '[[topic:post-is-deleted]]';

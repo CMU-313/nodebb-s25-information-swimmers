@@ -41,8 +41,13 @@ get:
                     type: number
                   anonymous:
                     type: number
+                  endorsedByStaff:
+                    type: boolean
+                    description: Indicates if the post has been endorsed by an admin
+                    nullable: true
                   flagId:
                     type: number
+                    nullable: true
                   deleted:
                     type: number
                   upvotes:
@@ -69,6 +74,19 @@ get:
                     type: boolean
                   downvoted:
                     type: boolean
+                required:
+                  - pid
+                  - uid
+                  - tid
+                  - content
+                  - timestamp
+                  - upvotes
+                  - downvotes
+                  - votes
+                  - timestampISO
+                  - upvoted
+                  - downvoted
+                  - endorsedByStaff
 put:
   tags:
     - posts

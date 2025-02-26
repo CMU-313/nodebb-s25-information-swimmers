@@ -82,6 +82,13 @@ get:
                           type: number
                         edited:
                           type: number
+                        flagId:
+                          type: number
+                          nullable: true
+                        endorsedByStaff:
+                          type: boolean
+                          description: Indicates if the post has been endorsed by an admin
+                          nullable: true
                         timestampISO:
                           type: string
                           description: An ISO 8601 formatted date string (complementing `timestamp`)
@@ -258,9 +265,6 @@ get:
                           type: boolean
                         display_post_menu:
                           type: boolean
-                        flagId:
-                          type: number
-                          description: The flag identifier, if this particular post has been flagged before
                   events:
                     type: array
                     items:
