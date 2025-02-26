@@ -6,14 +6,16 @@
 </div>
 {{{ end }}}
 <div class="d-flex align-items-start gap-3">
-
-    
 	<div class="bg-body d-none d-sm-block rounded-circle" style="outline: 2px solid var(--bs-body-bg);">
 		<a class="d-inline-block position-relative text-decoration-none" href="{{{ if ./user.userslug }}}{config.relative_path}/user/{./user.userslug}{{{ else }}}#{{{ end }}}" aria-label="[[aria:user-avatar-for, {./user.username}]]">
-			{{{ if !posts.anonymous }}}
+			{{{ if posts.anonymous }}}
+			<div class="avatar avatar-rounded border" style="width: 48px; height: 48px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center;">
+				<i class="fa fa-user-secret fa-2x"></i>
+			</div>
+			{{{ else }}}
 			{buildAvatar(posts.user, "48px", true, "", "user/picture")}
 			<span component="user/status" class="position-absolute translate-middle-y border border-white border-2 rounded-circle status {posts.user.status}"><span class="visually-hidden">[[global:{posts.user.status}]]</span></span>
-		    {{{ end }}}
+			{{{ end }}}
 		</a>
 	</div>
 	
@@ -28,10 +30,14 @@
             
 			<div class="bg-body d-sm-none">
 				<a class="d-inline-block position-relative text-decoration-none" href="{{{ if ./user.userslug }}}{config.relative_path}/user/{./user.userslug}{{{ else }}}#{{{ end }}}">
-					{{{ if !posts.anonymous }}}
+					{{{ if posts.anonymous }}}
+					<div class="avatar avatar-rounded border" style="width: 20px; height: 20px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center;">
+						<i class="fa fa-user-secret"></i>
+					</div>
+					{{{ else }}}
 					{buildAvatar(posts.user, "20px", true, "", "user/picture")}
 					<span component="user/status" class="position-absolute translate-middle-y border border-white border-2 rounded-circle status {posts.user.status}"><span class="visually-hidden">[[global:{posts.user.status}]]</span></span>
-				    {{{ end }}}
+					{{{ end }}}
 				</a>
 			</div>
 			
@@ -39,9 +45,9 @@
 			<!-- changes here -->
 
 			{{{ if posts.anonymous }}}
-			<span>ANONYMOUS</span>
-            {{{ else }}}
-            <a class="fw-bold text-nowrap" href="{{{ if ./user.userslug }}}{config.relative_path}/user/{./user.userslug}{{{ else }}}#{{{ end }}}" data-username="{posts.user.username}" data-uid="{posts.user.uid}">{posts.user.displayname}</a>
+			<span class="fw-bold text-nowrap">Anonymous</span>
+			{{{ else }}}
+			<a class="fw-bold text-nowrap" href="{{{ if ./user.userslug }}}{config.relative_path}/user/{./user.userslug}{{{ else }}}#{{{ end }}}" data-username="{posts.user.username}" data-uid="{posts.user.uid}">{posts.user.displayname}</a>
 			{{{ end }}}
 
 
