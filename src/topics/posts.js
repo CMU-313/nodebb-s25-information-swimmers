@@ -132,7 +132,7 @@ module.exports = function (Topics) {
 		// Get flag data for posts with flagId
 		const flaggedPosts = postData.filter(p => p && p.flagId);
 		const flagData = await Promise.all(
-			flaggedPosts.map(async (post) => {
+			flaggedPosts.map(async post => {
 				try {
 					const reports = await require('../flags').getReports(post.flagId);
 					return { pid: post.pid, reports: reports };
@@ -141,9 +141,10 @@ module.exports = function (Topics) {
 				}
 			})
 		);
+		
 		// Create a map of pid to flag data for quick lookup
 		const flagDataMap = {};
-		flagData.forEach((data) => {
+		flagData.forEach(data => {
 			flagDataMap[data.pid] = data.reports;
 		});
 
@@ -160,7 +161,9 @@ module.exports = function (Topics) {
 
 				// Check if post has a flag with "Endorsed by Admins" report
 				if (flagDataMap[postObj.pid]) {
-					postObj.endorsedByStaff = flagDataMap[postObj.pid].some(report => report.value && report.value.includes('Endorsed by Admins'));
+					postObj.endorsedByStaff = flagDataMap[postObj.pid].some(report => 
+						report.value && report.value.includes('Endorsed by Admins')
+					);
 				}
 
 				// Username override for guests, if enabled
