@@ -126,6 +126,18 @@ define('forum/topic/postTools', [
 			});
 		});
 
+		// Add anonymous reply handler
+		$('.topic').on('click', '[component="topic/reply-anonymously"]', function () {
+			showStaleWarning(async function () {
+				hooks.fire('action:composer.post.new', {
+					tid: tid,
+					handle: 1, // Set handle to 1 to mark as anonymous
+					title: ajaxify.data.titleRaw,
+					body: $('[component="topic/quickreply/text"]').val() || '',
+				});
+			});
+		});
+
 		postContainer.on('click', '[component="post/bookmark"]', function () {
 			return bookmarkPost($(this), getData($(this), 'data-pid'));
 		});
