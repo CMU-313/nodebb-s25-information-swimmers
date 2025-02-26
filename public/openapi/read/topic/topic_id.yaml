@@ -84,6 +84,7 @@ get:
                           type: number
                         flagId:
                           type: number
+                          nullable: true
                         endorsedByStaff:
                           type: boolean
                           description: Indicates if the post has been endorsed by an admin

@@ -47,6 +47,7 @@ get:
                     nullable: true
                   flagId:
                     type: number
+                    nullable: true
                   deleted:
                     type: number
                   upvotes:
