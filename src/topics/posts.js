@@ -1,4 +1,3 @@
-
 'use strict';
 
 const _ = require('lodash');
@@ -130,6 +129,25 @@ module.exports = function (Topics) {
 			Topics.addParentPosts(postData),
 		]);
 
+		// Get flag data for posts with flagId
+		const flaggedPosts = postData.filter(p => p && p.flagId);
+		const flagData = await Promise.all(
+			flaggedPosts.map(async post => {
+				try {
+					const reports = await require('../flags').getReports(post.flagId);
+					return { pid: post.pid, reports: reports };
+				} catch (err) {
+					return { pid: post.pid, reports: [] };
+				}
+			})
+		);
+		
+		// Create a map of pid to flag data for quick lookup
+		const flagDataMap = {};
+		flagData.forEach(data => {
+			flagDataMap[data.pid] = data.reports;
+		});
+
 		postData.forEach((postObj, i) => {
 			if (postObj) {
 				postObj.user = postObj.uid ? userData[postObj.uid] : { ...userData[postObj.uid] };
@@ -140,6 +158,13 @@ module.exports = function (Topics) {
 				postObj.votes = postObj.votes || 0;
 				postObj.replies = replies[i];
 				postObj.selfPost = parseInt(uid, 10) > 0 && parseInt(uid, 10) === postObj.uid;
+
+				// Check if post has a flag with "Endorsed by Admins" report
+				if (flagDataMap[postObj.pid]) {
+					postObj.endorsedByStaff = flagDataMap[postObj.pid].some(report => 
+						report.value && report.value.includes('Endorsed by Admins')
+					);
+				}
 
 				// Username override for guests, if enabled
 				if (meta.config.allowGuestHandles && postObj.uid === 0 && postObj.handle) {
