@@ -40,9 +40,7 @@ postsAPI.get = async function (caller, data) {
 		const flags = require('../flags');
 		try {
 			const reports = await flags.getReports(post.flagId);
-			post.endorsedByStaff = reports.some(report => 
-				report.value && report.value.includes('Endorsed by Admins')
-			);
+			post.endorsedByStaff = reports.some(report => report.value && report.value.includes('Endorsed by Admins'));
 		} catch (err) {
 			post.endorsedByStaff = false;
 		}
