@@ -25,6 +25,7 @@ PostObject:
     endorsedByStaff:
       type: boolean
       description: Indicates if the post has been endorsed by an admin
+      nullable: true
     timestampISO:
       type: string
       description: An ISO 8601 formatted date string (complementing `timestamp`)
