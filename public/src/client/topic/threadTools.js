@@ -136,6 +136,14 @@ define('forum/topic/threadTools', [
 			});
 		});
 
+		//create topic modal
+		topicContainer.on('click', '[component="topic/create-poll"]', function () {
+			require(['forum/topic/poll'], function (createPoll) {
+				createPoll.init();
+			});
+		});		
+	
+
 		topicContainer.on('click', '[component="topic/following"]', function () {
 			changeWatching('follow');
 		});
