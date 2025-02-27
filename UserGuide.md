@@ -13,3 +13,15 @@ To test backend:
 
 **Why we believe this works:** 
 Anonymous reply only required one extra backend parameter (**handle == 1**), and we tested exactly for that condition.
+
+
+
+## Feature 3: Polling feature through composer-custom
+To test changes, one must un-link from the default composer and switch to the custom composer. Changes would include
+
+1. src/meta/build.js: switch 2 instances of composer-default to composer-custom
+2. src/install.js: switch 1 instance of composer-default to composer-custom
+3. switch package.json line with composer-default to "nodebb-plugin-composer-custom": "file:nodebb-plugin-composer-custom",
+
+[**This video shows how to use this feature!**]
+https://github.com/CMU-313/nodebb-s25-information-swimmers/pull/38#issuecomment-2686761033
