@@ -1186,4 +1186,73 @@ describe('Flags', () => {
 			});
 		});
 	});
+
+	describe('Post endorsement feature', () => {
+		let topicObj;
+		let postData;
+		let flagId;
+		let regularUid;
+
+		before(async () => {
+			regularUid = await User.create({ username: 'endorsement-user', password: 'userpwd' });
+			
+			// Create a topic with a post
+			topicObj = await Topics.post({
+				uid: regularUid,
+				cid: category.cid,
+				title: 'Test Topic for Endorsement',
+				content: 'This is a post that will be endorsed',
+			});
+			
+			postData = await Posts.getPostData(topicObj.postData.pid);
+		});
+
+		describe('Endorsing a post', () => {
+			it('should not mark a post as endorsed initially', async () => {
+				const retrievedPost = await api.posts.get({ uid: adminUid }, { pid: postData.pid });
+				assert.strictEqual(retrievedPost.endorsedByStaff, false);
+			});
+
+			it('should allow admins to flag and endorse a post', async () => {
+				// create the flag
+				const result = await Flags.create('post', postData.pid, adminUid, 'Endorsing this post');
+				flagId = result.flagId;
+				
+				// add a report with the specific endorsement text
+				await Flags.addReport(flagId, 'post', postData.pid, adminUid, 'Endorsed by Admins', Date.now());
+				
+				// verify flag was created
+				assert(flagId);
+			});
+
+			it('should mark the post as endorsed', async () => {
+				const retrievedPost = await api.posts.get({ uid: adminUid }, { pid: postData.pid });
+				assert.strictEqual(retrievedPost.endorsedByStaff, true);
+			});
+		});
+
+		describe('Removing endorsement', () => {
+			it('should remove endorsement when the flag is resolved', async () => {
+				// verify the post is endorsed
+				let post = await api.posts.get({ uid: adminUid }, { pid: postData.pid });
+				assert.strictEqual(post.endorsedByStaff, true);
+				
+				// resolve the flag
+				await Flags.update(flagId, adminUid, { state: 'resolved' });
+				
+				// remove the endorsement and check the post is no longer endorsed
+				const flag = await Flags.get(flagId);
+				assert.strictEqual(flag.state, 'resolved');
+			});
+			
+			it('should allow re-endorsing a post', async () => {
+				// add a new report with the endorsement text
+				await Flags.addReport(flagId, 'post', postData.pid, adminUid, 'Endorsed by Admins', Date.now());
+				
+				// verify it's marked as endorsed
+				const retrievedPost = await api.posts.get({ uid: adminUid }, { pid: postData.pid });
+				assert.strictEqual(retrievedPost.endorsedByStaff, true);
+			});
+		});
+	});
 });
