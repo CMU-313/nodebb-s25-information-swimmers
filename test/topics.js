@@ -48,7 +48,7 @@ describe('Topic\'s', () => {
 		topic = {
 			userId: adminUid,
 			categoryId: categoryObj.cid,
-			title: 'Test Topic Title',
+			title: 'Test Topic Title2025',
 			content: 'The content of test topic',
 		};
 	});
@@ -261,6 +261,15 @@ describe('Topic\'s', () => {
 
 		it('should create a new reply with proper parameters', (done) => {
 			topics.reply({ uid: topic.userId, content: 'test post', tid: newTopic.tid }, (err, result) => {
+				assert.equal(err, null, 'was created with error');
+				assert.ok(result);
+
+				done();
+			});
+		});
+
+		it('should create a new anonymous reply with proper parameters', (done) => {
+			topics.reply({ uid: topic.userId, content: 'test post1234', tid: newTopic.tid, handle: 1 }, (err, result) => {
 				assert.equal(err, null, 'was created with error');
 				assert.ok(result);
 
