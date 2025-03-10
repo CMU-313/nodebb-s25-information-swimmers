@@ -6,6 +6,7 @@
 The Post Endorsement feature allows administrators and moderators to mark high-quality or valuable posts with a green "Endorsed by Staff" badge. This feature helps users identify trustworthy information that has been verified by forum staff, improving the overall quality of discussions within an educational setting.
 
 ## How to Use the Feature
+https://github.com/user-attachments/assets/f86e48d2-e714-49df-9c36-33ab371cf445
 
 ### For Administrators / Teaching Staff
 
