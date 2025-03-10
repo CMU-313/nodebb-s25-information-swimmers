@@ -29,7 +29,7 @@ RUN groupadd --gid ${GID} ${USER} \
     && useradd --uid ${UID} --gid ${GID} --home-dir /usr/src/app/ --shell /bin/bash ${USER} \
     && chown -R ${USER}:${USER} /usr/src/app/
 
-USER ${USER}
+USER root
 
 RUN npm install --omit=dev
     # TODO: generate lockfiles for each package manager
