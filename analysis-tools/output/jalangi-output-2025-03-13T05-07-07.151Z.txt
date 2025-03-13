@@ -1,0 +1,44 @@
+ERROR:
+Command failed: node /Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/commands/jalangi.js --inlineIID --inlineSource --analysis /Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/sample_analyses/ChainedAnalyses.js --analysis /Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/sample_analyses/dlint/Utils.js --analysis /Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/sample_analyses/dlint/CheckNaN.js --analysis /Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/sample_analyses/dlint/ConcatUndefinedToString.js app.js
+node:internal/modules/cjs/loader:1412
+  throw err;
+  ^
+
+Error: Cannot find module '/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/commands/jalangi.js'
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1409:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1060:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1065:22)
+    at Function._load (node:internal/modules/cjs/loader:1214:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:234:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:151:5)
+    at node:internal/main/run_main_module:33:47 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v23.6.0
+
+
+STDOUT:
+None
+
+STDERR:
+node:internal/modules/cjs/loader:1412
+  throw err;
+  ^
+
+Error: Cannot find module '/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/commands/jalangi.js'
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1409:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1060:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1065:22)
+    at Function._load (node:internal/modules/cjs/loader:1214:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:234:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:151:5)
+    at node:internal/main/run_main_module:33:47 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v23.6.0
