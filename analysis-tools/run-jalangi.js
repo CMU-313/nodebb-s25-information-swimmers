@@ -13,7 +13,7 @@ const outputFile = path.join(__dirname, `output/jalangi-output-${timestamp}.txt`
 const jalangiPath = path.join(__dirname, 'jalangi2');
 if (!fs.existsSync(jalangiPath)) {
 	console.log('Installing Jalangi2...');
-	execSync('git clone https://github.com/Samsung/jalangi2.git ' + jalangiPath);
+	execSync(`git clone https://github.com/Samsung/jalangi2.git ${jalangiPath}`);
 	execSync('npm install', { cwd: jalangiPath });
 }
 
@@ -55,11 +55,9 @@ try {
 		`--analysis "${path.join(jalangiPath, 'src/js/sample_analyses/dlint/CheckNaN.js')}" ` +
 		`--analysis "${path.join(jalangiPath, 'src/js/sample_analyses/dlint/ConcatUndefinedToString.js')}" ` +
 		`"${fileToAnalyze}"`;
-	
 	console.log(`Running command: ${command}`);
 	const output = execSync(command, { encoding: 'utf8' });
 	console.log(output);
-	
 	// Save the output to a file
 	fs.writeFileSync(outputFile, output);
 	console.log(`Output saved to ${outputFile}`);
@@ -67,7 +65,6 @@ try {
 	console.error('Error running Jalangi2:', error.message);
 	if (error.stdout) console.log('Command output:', error.stdout);
 	if (error.stderr) console.error('Command error:', error.stderr);
-	
 	// Save any output even if there was an error
 	if (error.stdout || error.stderr) {
 		const errorOutput = `ERROR:\n${error.message}\n\nSTDOUT:\n${error.stdout || 'None'}\n\nSTDERR:\n${error.stderr || 'None'}`;
