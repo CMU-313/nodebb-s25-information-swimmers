@@ -75,3 +75,6 @@ test.sh
 !**/.gitkeepdump.rdb
 dump.rdb
 dump.rdb
+
+plato-report
+plato-report/
