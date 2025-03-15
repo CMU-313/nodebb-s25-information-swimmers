@@ -1,0 +1,32 @@
+name: Plato Analysis
+
+on:
+  push:
+    branches:
+      - savannahxunc/plato-static-setup
+  pull_request:
+
+jobs:
+  plato:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.17.0'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Plato Analysis
+        run: npx plato -r -d plato-report src
+
+      - name: Upload Plato Report Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: plato-report
+          path: plato-report/
