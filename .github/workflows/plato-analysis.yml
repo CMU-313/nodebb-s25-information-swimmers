@@ -3,7 +3,7 @@ name: Plato Analysis
 on:
   push:
     branches:
-      - savannahxunc/plato-static-setup
+      - main
   pull_request:
 
 jobs:
