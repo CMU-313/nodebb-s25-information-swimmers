@@ -10,6 +10,7 @@ const topics = require('../topics');
 const categories = require('../categories');
 const groups = require('../groups');
 const privileges = require('../privileges');
+const translate = require('../translate');
 
 module.exports = function (Posts) {
 	Posts.create = async function (data) {
@@ -19,6 +20,7 @@ module.exports = function (Posts) {
 		const content = data.content.toString();
 		const timestamp = data.timestamp || Date.now();
 		const isMain = data.isMain || false;
+		const [isEnglish, translatedContent] = await translate.translate(data)
 
 		// EDIT start (add new variable for quick reply creator)
 		const quickreplaycreator = data.quickreplaycreator || '';
@@ -44,6 +46,8 @@ module.exports = function (Posts) {
 			// EDIT start (put params together)
 			quickreplaycreator: quickreplaycreator,
 			anonymous: anonymous,
+			translatedContent: translatedContent,
+			isEnglish: isEnglish,
 			// EDIT end
 
 		};
