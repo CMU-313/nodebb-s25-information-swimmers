@@ -29,6 +29,9 @@ PostObject:
       type: boolean
       description: Indicates if the post has been endorsed by an admin
       nullable: true
+    isEnglish:
+      type: boolean
+      description: Indicates whether the post content is in English
     timestampISO:
       type: string
       description: An ISO 8601 formatted date string (complementing `timestamp`)
