@@ -45,6 +45,12 @@ get:
                     type: boolean
                     description: Indicates if the post has been endorsed by an admin
                     nullable: true
+                  isEnglish:
+                    type: boolean
+                    description: Indicates whether the post content is in English
+                  translated_content:
+                    type: string
+                    description: The translated content of the post if not in English
                   flagId:
                     type: number
                     nullable: true
@@ -87,6 +93,8 @@ get:
                   - upvoted
                   - downvoted
                   - endorsedByStaff
+                  - isEnglish
+                  - translated_content
 put:
   tags:
     - posts
