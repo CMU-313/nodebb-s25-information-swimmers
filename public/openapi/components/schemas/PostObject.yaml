@@ -32,6 +32,9 @@ PostObject:
     isEnglish:
       type: boolean
       description: Indicates whether the post content is in English
+    translatedContent:
+      type: string
+      description: The translated content of the post if not in English
     timestampISO:
       type: string
       description: An ISO 8601 formatted date string (complementing `timestamp`)
@@ -121,6 +124,8 @@ PostObject:
         - cid
         - title
         - slug
+        - translatedContent
+        - isEnglish
     category:
       type: object
       properties:
