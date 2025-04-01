@@ -82,6 +82,12 @@ get:
                                               type: number
                                             content:
                                               type: string
+                                            isEnglish:
+                                              type: boolean
+                                              description: Indicates whether the post content is in English
+                                            translated_content:
+                                              type: string
+                                              description: The translated content of the post if not in English
                                             timestampISO:
                                               type: string
                                               description: An ISO 8601 formatted date string (complementing `timestamp`)
@@ -142,6 +148,12 @@ get:
                                     type: number
                                   content:
                                     type: string
+                                  isEnglish:
+                                    type: boolean
+                                    description: Indicates whether the post content is in English
+                                  translated_content:
+                                    type: string
+                                    description: The translated content of the post if not in English
                                   timestampISO:
                                     type: string
                                     description: An ISO 8601 formatted date string (complementing `timestamp`)
