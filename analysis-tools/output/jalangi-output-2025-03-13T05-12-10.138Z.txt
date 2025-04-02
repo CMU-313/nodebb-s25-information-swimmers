@@ -1,0 +1,42 @@
+ERROR:
+Command failed: node "/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/commands/jalangi.js" --inlineIID --inlineSource --analysis "/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/sample_analyses/ChainedAnalyses.js" --analysis "/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/sample_analyses/dlint/Utils.js" --analysis "/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/sample_analyses/dlint/CheckNaN.js" --analysis "/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/sample_analyses/dlint/ConcatUndefinedToString.js" "app.js"
+/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/runtime/analysis.js:515
+            throw tmp;
+            ^
+
+ReferenceError: Cannot access 'nconf' before initialization
+    at Object.<anonymous> (/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/app.js:6:33)
+    at Module._compile (node:internal/modules/cjs/loader:1739:14)
+    at Module._extensions..js (/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/commands/jalangi.js:109:12)
+    at Module.load (node:internal/modules/cjs/loader:1473:32)
+    at Function._load (node:internal/modules/cjs/loader:1285:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:234:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:151:5)
+    at startProgram (/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/commands/jalangi.js:121:19)
+    at Object.<anonymous> (/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/commands/jalangi.js:127:5)
+
+Node.js v23.6.0
+
+
+STDOUT:
+None
+
+STDERR:
+/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/runtime/analysis.js:515
+            throw tmp;
+            ^
+
+ReferenceError: Cannot access 'nconf' before initialization
+    at Object.<anonymous> (/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/app.js:6:33)
+    at Module._compile (node:internal/modules/cjs/loader:1739:14)
+    at Module._extensions..js (/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/commands/jalangi.js:109:12)
+    at Module.load (node:internal/modules/cjs/loader:1473:32)
+    at Function._load (node:internal/modules/cjs/loader:1285:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:234:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:151:5)
+    at startProgram (/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/commands/jalangi.js:121:19)
+    at Object.<anonymous> (/Users/xiebo/Desktop/17313/nodebb-s25-information-swimmers-2/analysis-tools/jalangi2/src/js/commands/jalangi.js:127:5)
+
+Node.js v23.6.0

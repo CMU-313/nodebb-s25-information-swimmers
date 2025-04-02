@@ -62,6 +62,12 @@ tx.exe
 coverage
 .nyc_output
 
+# Jalangi2 generated files
+*_jalangi_*.js
+.cache/
+analysis-tools/test-file.js
+*_jalangi_*.json
+
 *.log
 test/files/normalise.jpg.png
 test/files/normalise-resized.jpg
